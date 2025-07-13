@@ -2,114 +2,43 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ahmad-Bot</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600&display=swap" rel="stylesheet">
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       font-family: 'Cairo', sans-serif;
       margin: 0;
       padding: 0;
-      transition: background-color 0.4s, color 0.4s;
-    }
-
-    body.light-mode {
-      background: linear-gradient(to bottom right, #e3f2fd, #ffffff);
+      background-color: #f9f9f9;
       color: #000;
+      transition: background-color 0.3s, color 0.3s;
     }
 
     body.dark-mode {
       background-color: #121212;
-      color: #fff;
+      color: #eee;
     }
 
     header {
+      background-color: #10a37f;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+      font-size: 1.5rem;
+      font-weight: bold;
+      position: sticky;
+      top: 0;
+      z-index: 10;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background-color: #2196f3;
-      color: white;
-      padding: 1rem 2rem;
-      font-size: 24px;
-      font-weight: bold;
     }
 
-    #chat-container {
-      max-width: 800px;
-      margin: 2rem auto;
-      padding: 1rem;
-      background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    }
-
-    body.dark-mode #chat-container {
-      background-color: #1e1e1e;
-      box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
-    }
-
-    .message {
-      padding: 12px;
-      border-radius: 10px;
-      margin: 8px 0;
-      line-height: 1.6;
-      white-space: pre-wrap;
-    }
-
-    .user {
-      background-color: #e3f2fd;
-      text-align: right;
-    }
-
-    .bot {
-      background-color: #e8f5e9;
-      text-align: right;
-    }
-
-    body.dark-mode .user {
-      background-color: #263238;
-    }
-
-    body.dark-mode .bot {
-      background-color: #2e7d32;
-    }
-
-    .input-area {
-      display: flex;
-      gap: 10px;
-      margin-top: 16px;
-    }
-
-    input {
-      flex: 1;
-      padding: 12px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      font-size: 16px;
-    }
-
-    button {
-      padding: 12px 18px;
-      background-color: #2196f3;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      font-size: 16px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-
-    button:hover {
-      background-color: #1976d2;
-    }
-
-    #loader {
-      display: none;
-      margin-top: 10px;
-      text-align: center;
-      color: #666;
-    }
-
-    /* Switch Styles */
     .switch {
       position: relative;
       display: inline-block;
@@ -133,8 +62,8 @@
     }
 
     .slider:before {
-      position: absolute;
       content: "";
+      position: absolute;
       height: 18px;
       width: 18px;
       left: 3px;
@@ -151,9 +80,83 @@
     input:checked + .slider:before {
       transform: translateX(26px);
     }
+
+    #chat-container {
+      display: flex;
+      flex-direction: column;
+      padding: 1rem;
+      max-width: 800px;
+      margin: auto;
+    }
+
+    .message {
+      padding: 12px 16px;
+      border-radius: 10px;
+      margin: 8px 0;
+      line-height: 1.6;
+      white-space: pre-wrap;
+      max-width: 90%;
+    }
+
+    .user {
+      align-self: flex-end;
+      background-color: #e0f7fa;
+    }
+
+    .bot {
+      align-self: flex-start;
+      background-color: #e8f5e9;
+    }
+
+    body.dark-mode .user {
+      background-color: #004d40;
+      color: #fff;
+    }
+
+    body.dark-mode .bot {
+      background-color: #2e7d32;
+      color: #fff;
+    }
+
+    .input-area {
+      display: flex;
+      gap: 8px;
+      margin: 1rem auto;
+      max-width: 800px;
+      padding: 0 1rem;
+    }
+
+    input {
+      flex: 1;
+      padding: 12px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+
+    button {
+      padding: 12px 16px;
+      font-size: 16px;
+      background-color: #10a37f;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0e8a6b;
+    }
+
+    #loader {
+      text-align: center;
+      color: #888;
+      margin-top: 10px;
+      font-size: 14px;
+    }
   </style>
 </head>
-<body class="light-mode">
+<body>
 
   <header>
     Ahmad-Bot
@@ -163,22 +166,21 @@
     </label>
   </header>
 
-  <div id="chat-container">
+  <main id="chat-container">
     <div id="messages"></div>
-
     <div id="loader">⏳ يتم توليد الرد...</div>
+  </main>
 
-    <div class="input-area">
-      <input id="input" type="text" placeholder="اكتب رسالتك..." />
-      <button onclick="sendMessage()">إرسال</button>
-    </div>
+  <div class="input-area">
+    <input id="input" type="text" placeholder="اكتب رسالتك..." />
+    <button onclick="sendMessage()">إرسال</button>
   </div>
 
   <script>
     const API_URL = "https://a1-8rf5.onrender.com/api/chat";
 
     document.getElementById("darkToggle").addEventListener("change", function () {
-      document.body.className = this.checked ? "dark-mode" : "light-mode";
+      document.body.classList.toggle("dark-mode", this.checked);
     });
 
     async function sendMessage() {
@@ -202,20 +204,20 @@
         if (data.response) {
           addMessage(data.response, "bot");
         } else {
-          addMessage("❌ خطأ في الرد من الخادم.", "bot");
+          addMessage("❌ لا يوجد رد من الخادم", "bot");
         }
       } catch (e) {
         showLoader(false);
-        addMessage("❌ تعذر الاتصال بالخدمة.", "bot");
+        addMessage("❌ خطأ في الاتصال بالخدمة", "bot");
       }
     }
 
     function addMessage(text, type) {
-      const msgDiv = document.createElement("div");
-      msgDiv.className = `message ${type}`;
-      msgDiv.textContent = text;
-      document.getElementById("messages").appendChild(msgDiv);
-      msgDiv.scrollIntoView({ behavior: "smooth" });
+      const msg = document.createElement("div");
+      msg.className = `message ${type}`;
+      msg.textContent = text;
+      document.getElementById("messages").appendChild(msg);
+      msg.scrollIntoView({ behavior: "smooth" });
     }
 
     function showLoader(show) {
