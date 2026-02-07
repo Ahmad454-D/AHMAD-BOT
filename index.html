@@ -3,34 +3,47 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ahmad-Bot</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600&display=swap" rel="stylesheet">
+  
+  <title>Ahmad-Bot | مساعدك الذكي المتطور</title>
+  <meta name="description" content="Ahmad-Bot هو بوت ذكاء اصطناعي متطور يقدم إجابات ذكية وحلولاً برمجية. جرب أحمد بوت الآن للحصول على تجربة دردشة فريدة.">
+  <meta name="keywords" content="Ahmad-Bot, أحمد بوت, شات بوت, ذكاء اصطناعي, AI Bot, مساعد شخصي">
+  <meta name="author" content="Ahmad">
+  <link rel="canonical" href="https://your-username.github.io/Ahmad-Bot/" />
+
+  <meta property="og:title" content="Ahmad-Bot | مساعدك الذكي">
+  <meta property="og:description" content="تحدث مع Ahmad-Bot واحصل على إجابات فورية وذكية.">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1531746790731-6c087fecd05a?q=80&w=500"> <meta property="og:type" content="website">
+
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+  
   <style>
     * {
       box-sizing: border-box;
+      transition: all 0.3s ease;
     }
 
     body {
       font-family: 'Cairo', sans-serif;
       margin: 0;
       padding: 0;
-      background-color: #f9f9f9;
-      color: #000;
-      transition: background-color 0.3s, color 0.3s;
+      background-color: #f4f7f6;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
     }
 
     body.dark-mode {
-      background-color: #121212;
-      color: #eee;
+      background-color: #1a1a1a;
+      color: #f1f1f1;
     }
 
     header {
       background-color: #10a37f;
       color: white;
-      padding: 1rem;
+      padding: 1rem 1.5rem;
       text-align: center;
-      font-size: 1.5rem;
-      font-weight: bold;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
       position: sticky;
       top: 0;
       z-index: 10;
@@ -39,127 +52,145 @@
       align-items: center;
     }
 
+    header h1 {
+      margin: 0;
+      font-size: 1.4rem;
+      font-weight: 700;
+    }
+
+    /* زر وضع القاتم */
     .switch {
       position: relative;
       display: inline-block;
-      width: 50px;
-      height: 24px;
+      width: 45px;
+      height: 22px;
     }
 
-    .switch input {
-      opacity: 0;
-      width: 0;
-      height: 0;
-    }
+    .switch input { opacity: 0; width: 0; height: 0; }
 
     .slider {
       position: absolute;
       cursor: pointer;
       top: 0; left: 0; right: 0; bottom: 0;
       background-color: #ccc;
-      transition: 0.4s;
       border-radius: 24px;
     }
 
     .slider:before {
       content: "";
       position: absolute;
-      height: 18px;
-      width: 18px;
-      left: 3px;
-      bottom: 3px;
+      height: 16px; width: 16px;
+      left: 3px; bottom: 3px;
       background-color: white;
-      transition: 0.4s;
       border-radius: 50%;
     }
 
-    input:checked + .slider {
-      background-color: #4caf50;
-    }
-
-    input:checked + .slider:before {
-      transform: translateX(26px);
-    }
+    input:checked + .slider { background-color: #2196F3; }
+    input:checked + .slider:before { transform: translateX(23px); }
 
     #chat-container {
-      display: flex;
-      flex-direction: column;
+      flex: 1;
+      overflow-y: auto;
       padding: 1rem;
-      max-width: 800px;
+      max-width: 900px;
+      width: 100%;
       margin: auto;
+      scrollbar-width: thin;
     }
 
     .message {
-      padding: 12px 16px;
-      border-radius: 10px;
-      margin: 8px 0;
+      padding: 14px 18px;
+      border-radius: 15px;
+      margin: 10px 0;
       line-height: 1.6;
-      white-space: pre-wrap;
-      max-width: 90%;
+      max-width: 80%;
+      word-wrap: break-word;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .user {
       align-self: flex-end;
-      background-color: #e0f7fa;
+      background-color: #10a37f;
+      color: white;
+      margin-right: auto;
+      border-bottom-left-radius: 2px;
     }
 
     .bot {
       align-self: flex-start;
-      background-color: #e8f5e9;
-    }
-
-    body.dark-mode .user {
-      background-color: #004d40;
-      color: #fff;
+      background-color: #fff;
+      color: #333;
+      border: 1px solid #ddd;
+      border-bottom-right-radius: 2px;
     }
 
     body.dark-mode .bot {
-      background-color: #2e7d32;
+      background-color: #2d2d2d;
       color: #fff;
+      border-color: #444;
     }
 
     .input-area {
       display: flex;
-      gap: 8px;
-      margin: 1rem auto;
-      max-width: 800px;
-      padding: 0 1rem;
+      gap: 10px;
+      padding: 1.2rem;
+      background: white;
+      border-top: 1px solid #eee;
+      max-width: 900px;
+      width: 100%;
+      margin: auto;
+    }
+
+    body.dark-mode .input-area {
+      background: #1a1a1a;
+      border-top: 1px solid #333;
     }
 
     input {
       flex: 1;
-      padding: 12px;
-      font-size: 16px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
+      padding: 12px 15px;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      outline: none;
+      font-family: 'Cairo';
+    }
+
+    body.dark-mode input {
+      background: #333;
+      color: white;
+      border-color: #444;
     }
 
     button {
-      padding: 12px 16px;
-      font-size: 16px;
+      padding: 0 25px;
       background-color: #10a37f;
       color: white;
       border: none;
-      border-radius: 8px;
+      border-radius: 12px;
       cursor: pointer;
+      font-weight: bold;
     }
 
-    button:hover {
-      background-color: #0e8a6b;
-    }
+    button:hover { background-color: #0d8a6b; }
 
     #loader {
+      display: none;
       text-align: center;
       color: #888;
-      margin-top: 10px;
-      font-size: 14px;
+      padding: 10px;
+      font-style: italic;
     }
   </style>
 </head>
 <body>
 
   <header>
-    Ahmad-Bot
+    <h1>Ahmad-Bot</h1>
     <label class="switch">
       <input type="checkbox" id="darkToggle" />
       <span class="slider"></span>
@@ -167,29 +198,42 @@
   </header>
 
   <main id="chat-container">
-    <div id="messages"></div>
-    <div id="loader">⏳ يتم توليد الرد...</div>
+    <div id="messages">
+      <div class="message bot">أهلاً بك! أنا Ahmad-Bot، كيف يمكنني مساعدتك اليوم؟</div>
+    </div>
+    <div id="loader">⚡ أحمد بوت يفكر...</div>
   </main>
 
   <div class="input-area">
-    <input id="input" type="text" placeholder="اكتب رسالتك..." />
-    <button onclick="sendMessage()">إرسال</button>
+    <input id="input" type="text" placeholder="اسأل أحمد بوت أي شيء..." autocomplete="off" />
+    <button id="sendBtn">إرسال</button>
   </div>
 
   <script>
     const API_URL = "https://a1-8rf5.onrender.com/api/chat";
+    const inputField = document.getElementById("input");
+    const sendBtn = document.getElementById("sendBtn");
+    const messagesContainer = document.getElementById("messages");
+    const loader = document.getElementById("loader");
 
+    // تفعيل وضع الظلام
     document.getElementById("darkToggle").addEventListener("change", function () {
       document.body.classList.toggle("dark-mode", this.checked);
     });
 
+    // إرسال الرسالة عند الضغط على Enter
+    inputField.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") sendMessage();
+    });
+
+    sendBtn.addEventListener("click", sendMessage);
+
     async function sendMessage() {
-      const input = document.getElementById("input");
-      const message = input.value.trim();
+      const message = inputField.value.trim();
       if (!message) return;
 
       addMessage(message, "user");
-      input.value = "";
+      inputField.value = "";
       showLoader(true);
 
       try {
@@ -201,14 +245,15 @@
 
         const data = await res.json();
         showLoader(false);
+
         if (data.response) {
           addMessage(data.response, "bot");
         } else {
-          addMessage("❌ لا يوجد رد من الخادم", "bot");
+          addMessage("❌ عذراً، لم أستطع فهم ذلك.", "bot");
         }
       } catch (e) {
         showLoader(false);
-        addMessage("❌ خطأ في الاتصال بالخدمة", "bot");
+        addMessage("❌ خطأ في الاتصال بالخادم. تأكد أن Render يعمل.", "bot");
       }
     }
 
@@ -216,12 +261,15 @@
       const msg = document.createElement("div");
       msg.className = `message ${type}`;
       msg.textContent = text;
-      document.getElementById("messages").appendChild(msg);
-      msg.scrollIntoView({ behavior: "smooth" });
+      messagesContainer.appendChild(msg);
+      
+      // تمرير تلقائي للأسفل
+      const chatContainer = document.getElementById("chat-container");
+      chatContainer.scrollTop = chatContainer.scrollHeight;
     }
 
     function showLoader(show) {
-      document.getElementById("loader").style.display = show ? "block" : "none";
+      loader.style.display = show ? "block" : "none";
     }
   </script>
 
